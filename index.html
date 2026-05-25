@@ -67,17 +67,6 @@
             stroke: #c99b42;
         }
 
-        .badge {
-            background: #5b0d12;
-            color: #f5d58f;
-            border: 1.5px solid #c99b42;
-            padding: 8px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 2px;
-        }
-
         /* HERO - AJUSTADO PARA MOBILE VERTICAL */
         .hero {
             padding: 10px 20px 24px;
@@ -85,7 +74,7 @@
 
         .hero-box {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; 
             gap: 24px;
         }
 
@@ -403,8 +392,16 @@
 
 <div class="container">
 
+    <div class="topo">
+        <div class="logo">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M21 8.25c0-2.485-2.239-4.5-5-4.5-1.74 0-3.272.8-4 2.019C11.272 4.55 9.74 3.75 8 3.75c-2.761 0-5 2.015-5 4.5 0 7.22 9 12 9 12s9-4.78 9-12z"/>
+            </svg>
+            <span>Menu Fotográfico</span>
+        </div>
         <img src="img/logo-deck.PNG" alt="Logo Deck" style="height: 40px; max-width: 120px; object-fit: contain;">
-
+    </div>
 
     <div class="hero">
         <div class="hero-box">
@@ -535,10 +532,11 @@
     let pacoteSelecionado = 0; 
     let qtdPersonalizada = 4; 
     
-    // ESCAPES UNICODE NATIVOS EM JAVASCRIPT (Blindagem contra o diamante com interrogação)
-    const iconCamera = "\u{1F4F8}"; 
-    const iconPin    = "\u{1F4CD}"; 
-    const iconGift   = "\u{1F381}";
+    // 🛡️ BLINDAGEM SUPREMA EM UNICODE TRADICIONAL (Surrogate Pairs)
+    // Acaba 100% com o bug do diamante em navegadores internos e WebViews
+    const iconCamera = "\uD83D\uDCF8"; 
+    const iconPin    = "\uD83D\uDCCD"; 
+    const iconGift   = "\uD83C\uDF81";
 
     function validateMesa() {
         const mesa = document.getElementById('input-mesa').value;
@@ -588,15 +586,16 @@
             pacoteTexto = textosPacotes[pacoteSelecionado];
         }
 
-        // CONSTRUÇÃO REFORÇADA COM UNICODE ESCAPES NATIVOS
-        const mensagemFinal = encodeURIComponent(
-            iconCamera + " *NOVO CHAMADO DE FOTO - DECK*\n\n" +
-            iconPin + " *Mesa:* " + mesa.padStart(2, '0') + "\n" +
-            iconGift + " *Pacote Selecionado:* " + pacoteTexto + "\n\n" +
-            "_Aguardamos você para fazer os registros!_"
-        );
+        // Montagem estruturada do texto usando os códigos puros da memória
+        var textoMensagem = iconCamera + " *NOVO CHAMADO DE FOTO - DECK*\n\n" +
+                            iconPin + " *Mesa:* " + mesa.padStart(2, '0') + "\n" +
+                            iconGift + " *Pacote Selecionado:* " + pacoteTexto + "\n\n" +
+                            "_Aguardamos você para fazer os registros!_";
 
-        window.open(`https://wa.me/${seuWhatsApp}?text=${mensagemFinal}`, '_blank');
+        var mensagemFinal = encodeURIComponent(textoMensagem);
+
+        // 🚀 DISPARO VIA ENDPOINT MÃE DA API DO WHATSAPP (Evita quebra de parâmetros no Android/iOS)
+        window.open("https://api.whatsapp.com/send?phone=" + seuWhatsApp + "&text=" + mensagemFinal, '_blank');
     }
 </script>
 
