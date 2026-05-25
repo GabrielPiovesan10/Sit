@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Menu Fontográfico | Deck</title>
+    <title>Menu Fotográfico | Deck</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -541,9 +541,9 @@
 <script>
     const seuWhatsApp = "5519993405480";
     let pacoteSelecionado = 0; 
-    let qtdPersonalizada = 4; // Começa em 4 fotos extras caso selecione o dinâmico
+    let qtdPersonalizada = 4; 
     
-    // ESCAPES UNICODE NATIVOS EM JAVASCRIPT (Acaba 100% com o diamantezinho preto na tela)
+    // ESCAPES UNICODE NATIVOS EM JAVASCRIPT (Blindagem contra o diamante com interrogação)
     const iconCamera = "\u{1F4F8}"; 
     const iconPin    = "\u{1F4CD}"; 
     const iconGift   = "\u{1F381}";
@@ -567,13 +567,10 @@
         document.getElementById(`pkg-${id}`).classList.add('active');
     }
 
-    // Gerencia o seletor de fotos + e - dinamicamente
     function adjustCustomQty(change) {
-        qtdPersonalizada = Math.max(4, qtdPersonalizada + change); // Bloqueia para não descer menos que 4 extras
+        qtdPersonalizada = Math.max(4, qtdPersonalizada + change);
         document.getElementById('custom-qty-display').innerText = qtdPersonalizada;
         document.getElementById('text-custom').innerText = `Total de ${qtdPersonalizada + 1} fotos (1 grátis + ${qtdPersonalizada} extras)`;
-        
-        // Se clicar no botão de ajustar quantidade, o sistema já marca o card dinâmico automaticamente
         selectPackage(4);
     }
 
@@ -599,7 +596,7 @@
             pacoteTexto = textosPacotes[pacoteSelecionado];
         }
 
-        // CONSTRUÇÃO REFORÇADA DA MENSAGEM COM UNICODE ESCAPES NATIVOS
+        // CONSTRUÇÃO REFORÇADA COM UNICODE ESCAPES NATIVOS
         const mensagemFinal = encodeURIComponent(
             iconCamera + " *NOVO CHAMADO DE FOTO - DECK*\n\n" +
             iconPin + " *Mesa:* " + mesa.padStart(2, '0') + "\n" +
