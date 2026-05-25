@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Menu Fotográfico | Deck</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet font-display=swap">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #14050b; /* Fundo escuro externo para destacar o container do celular */
+            font-family: 'Montserrat', sans-serif;
+            color: #2b1b17;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* CONTAINER MASTER - Simulador Mobile Perfeito */
+        .container {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #fffdfb 0%, #f9f2eb 100%);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* TOPO / HEADER */
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: #5b0d12;
+        }
+
+        .logo svg {
+            width: 26px;
+            height: 26px;
+            stroke: #c99b42;
+        }
+
+        .badge {
+            background: #5b0d12;
+            color: #f5d58f;
+            border: 1.5px solid #c99b42;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        /* HERO - AJUSTADO PARA MOBILE VERTICAL */
+        .hero {
+            padding: 10px 20px 24px;
+        }
+
+        .hero-box {
+            display: flex;
+            flex-direction: column; /* Organização em coluna para não espremer no celular */
+            gap: 24px;
+        }
+
+        .frase {
+            color: #b07b28;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .titulo {
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .titulo h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            color: #2d0d0d;
+            font-weight: 600;
+        }
+
+        .titulo h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            color: #c79a45;
+            font-weight: 400;
+            margin-top: -4px;
+        }
+
+        .descricao {
+            color: #555555;
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 200px;
+            
+            /* 🔗 AQUI ESTÁ A MUDANÇA SUPREMA E DEFINITIVA: */
+            /* Estamos usando o arquivo local que você subiu para o GitHub. */
+            /* Se sua imagem estiver na pasta raiz, use: url('casal.jpg'); */
+            background-image: url('img/casal.jpg'); 
+            
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        /* CARDS DE BENEFÍCIOS */
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #fffdfa;
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1e2cb;
+        }
+
+        .icone {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1.5px solid #d8b16d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 22px;
+            background: #fffbf5;
+        }
+
+        .card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #441015;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: #666666;
+            line-height: 1.5;
+            font-size: 12px;
+        }
+
+        /* FORMULÁRIO E ETAPAS */
+        .etapas {
+            padding: 32px 20px 20px;
+        }
+
+        .etapa {
+            margin-bottom: 28px;
+        }
+
+        .etapa-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .numero {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #5b0d12;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(91, 13, 18, 0.2);
+        }
+
+        .numero.active {
+            background: #b07b28; /* Cor dourada para indicar etapa concluída */
+        }
+
+        .titulo-etapa {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #4b2f2f;
+        }
+
+        .input {
+            width: 100%;
+            height: 64px;
+            border-radius: 14px;
+            border: 2px solid #ead9bc;
+            background: white;
+            padding: 0 20px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2b1b17;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .input:focus {
+            border-color: #8d111d;
+        }
+
+        .input::placeholder {
+            color: #c4b5a2;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        /* OPÇÕES SELECIONÁVEIS */
+        .opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .opcao {
+            background: white;
+            border: 2px solid #ead9bc;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .opcao.active {
+            border-color: #8d111d;
+            background: #fff5f6;
+        }
+
+        .left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #ead9bc;
+            background: white;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .opcao.active .radio {
+            border-color: #8d111d;
+            background: #8d111d;
+            box-shadow: inset 0 0 0 4px white;
+        }
+
+        .opcao h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #421116;
+        }
+
+        .opcao p {
+            color: #777777;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .preco {
+            background: #fdf2f4;
+            color: #8d111d;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            border: 1px solid rgba(141, 17, 29, 0.1);
+            min-w: 75px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .opcao.active .preco {
+            background: #8d111d;
+            color: white;
+        }
+
+        /* BOTÃO PRINCIPAL DE ACIONAMENTO */
+        .botao {
+            padding: 10px 20px 32px;
+        }
+
+        .botao button {
+            width: 100%;
+            height: 68px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(90deg, #7a0915, #b51222);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(122, 9, 21, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        .botao button:active {
+            transform: scale(0.99);
+        }
+
+        /* FOOTER REFINADO */
+        .footer {
+            text-align: center;
+            color: #9f8f83;
+            font-size: 11px;
+            padding: 10px 20px 28px;
+            line-height: 1.6;
+            border-top: 1px solid rgba(234, 217, 188, 0.3);
+            background: #fffdfb;
+        }
+
+        .footer span {
+            color: #b07b28;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <div class="logo">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M21 8.25c0-2.485-2.239-4.5-5-4.5-1.74 0-3.272.8-4 2.019C11.272 4.55 9.74 3.75 8 3.75c-2.761 0-5 2.015-5 4.5 0 7.22 9 12 9 12s9-4.78 9-12z"/>
+            </svg>
+            <span>Menu Fotográfico</span>
+        </div>
+        <div class="badge">DECK</div>
+    </div>
+
+    <div class="hero">
+        <div class="hero-box">
+            <div>
+                <div class="frase">Uma lembrança para guardar no coração</div>
+                <div class="titulo">
+                    <h1>Eternize a sua</h1>
+                    <h2>Noite Especial</h2>
+                </div>
+                <div class="descricao">
+                    O Deck preparou uma experiência exclusiva para vocês. Escolham o combo ideal para registrar esse momento e levar a foto impressa na hora.
+                </div>
+            </div>
+            <div class="hero-image"></div>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="icone">🎁</div>
+            <h3>1ª Foto Cortesia</h3>
+            <p>Presente especial do restaurante. Impressa e entregue diretamente na mesa.</p>
+        </div>
+        <div class="card">
+            <div class="icone">📷</div>
+            <h3>Fotos Extras</h3>
+            <p>Registre ainda mais momentos especiais por apenas R$10 por foto adicional.</p>
+        </div>
+    </div>
+
+    <div class="etapas">
+        
+        <div class="etapa">
+            <div class="etapa-header">
+                <div id="num-mesa" class="numero">1</div>
+                <div class="titulo-etapa">DIGITE O NÚMERO DA SUA MESA</div>
+            </div>
+            <input id="input-mesa" class="input" type="number" min="1" max="99" placeholder="Ex: 08" oninput="validateMesa()"/>
+        </div>
+
+        <div class="etapa">
+            <div class="etapa-header">
+                <div class="numero">2</div>
+                <div class="titulo-etapa">SELECIONE A QUANTIDADE DE FOTOS</div>
+            </div>
+
+            <div class="opcoes">
+                <div onclick="selectPackage(0)" id="pkg-0" class="opcao active">
+                    <div class="left">
+                        <div class="radio"></div>
+                        <div>
+                            <h4>Apenas a Foto Cortesia</h4>
+                            <p>1 foto impressa de presente</p>
+                        </div>
+                    </div>
+                    <div class="preco">Grátis</div>
+                </div>
+
+                <div onclick="selectPackage(1)" id="pkg-1" class="opcao">
+                    <div class="left">
+                        <div class="radio"></div>
+                        <div>
+                            <h4>Foto Cortesia + 1 Extra</h4>
+                            <p>Total de 2 fotos impressas</p>
+                        </div>
+                    </div>
+                    <div class="preco">+ R$ 10</div>
+                </div>
+
+                <div onclick="selectPackage(2)" id="pkg-2" class="opcao">
+                    <div class="left">
+                        <div class="radio"></div>
+                        <div>
+                            <h4>Foto Cortesia + 2 Extras</h4>
+                            <p>Total de 3 fotos impressas</p>
+                        </div>
+                    </div>
+                    <div class="preco">+ R$ 20</div>
+                </div>
+
+                <div onclick="selectPackage(3)" id="pkg-3" class="opcao">
+                    <div class="left">
+                        <div class="radio"></div>
+                        <div>
+                            <h4>Foto Cortesia + 3 Extras</h4>
+                            <p>Total de 4 fotos impressas</p>
+                        </div>
+                    </div>
+                    <div class="preco">+ R$ 30</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="botao">
+        <button onclick="enviarChamado()">
+            📸 SOLICITAR REGISTRO FOTOGRÁFICO
+        </button>
+    </div>
+
+    <div class="footer">
+        Solução Digital desenvolvida por <span>GP TECH</span>
+        <br><br>
+        © 2026 Deck Churrascaria. Todos os direitos reservados.
+    </div>
+
+</div>
+
+<script>
+    const seuWhatsApp = "5519993405480";
+    let pacoteSelecionado = 0; // Padrão inicial: Grátis
+    
+    const textosPacotes = [
+        "Apenas a Foto Cortesia (Gratuita)",
+        "Foto Cortesia + 1 Foto Extra (Total R$ 10,00)",
+        "Foto Cortesia + 2 Fotos Extras (Total R$ 20,00)",
+        "Foto Cortesia + 3 Fotos Extras (Total R$ 30,00)"
+    ];
+
+    // Validação visual da mesa
+    function validateMesa() {
+        const mesa = document.getElementById('input-mesa').value;
+        const numCirculo = document.getElementById('num-mesa');
+        if (mesa && mesa > 0 && mesa <= 99) {
+            numCirculo.classList.add('active'); // Fica dourado se preenchido
+        } else {
+            numCirculo.classList.remove('active');
+        }
+    }
+
+    function selectPackage(id) {
+        pacoteSelecionado = id;
+        
+        // Limpa a marcação ativa de todas as caixas
+        for (let i = 0; i <= 3; i++) {
+            document.getElementById(`pkg-${i}`).classList.remove('active');
+        }
+
+        // Adiciona o estado ativo apenas no que foi clicado
+        document.getElementById(`pkg-${id}`).classList.add('active');
+    }
+
+    function enviarChamado() {
+        const mesa = document.getElementById('input-mesa').value;
+
+        // Validação de segurança básica da mesa
+        if (!mesa || mesa <= 0 || mesa > 99) {
+            alert("Por favor, informe o número correto da sua mesa (1 a 99) antes de solicitar o fotógrafo!");
+            return;
+        }
+
+        const pacoteTexto = textosPacotes[pacoteSelecionado];
+
+        // Formatação perfeita do pedido para cair limpo no seu WhatsApp
+        const mensagemFinal = encodeURIComponent(`📸 *NOVO CHAMADO DE FOTO - DECK*\n\n📍 *Mesa:* ${mesa.padStart(2, '0')}\n🎁 *Pacote Selecionado:* ${pacoteTexto}\n\n_Aguardamos você para fazer os registros!_`);
+
+        // Dispara o aplicativo do WhatsApp na hora
+        window.open(`https://wa.me/${seuWhatsApp}?text=${mensagemFinal}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
