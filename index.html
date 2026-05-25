@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Menu Fotográfico | Deck</title>
+    <title>Menu Fontográfico | Deck</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet font-display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" font-display="swap">
 
     <style>
         * {
@@ -85,7 +85,7 @@
 
         .hero-box {
             display: flex;
-            flex-direction: column; /* Organização em coluna para não espremer no celular */
+            flex-direction: column;
             gap: 24px;
         }
 
@@ -128,12 +128,7 @@
         .hero-image {
             width: 100%;
             height: 200px;
-            
-            /* 🔗 AQUI ESTÁ A MUDANÇA SUPREMA E DEFINITIVA: */
-            /* Estamos usando o arquivo local que você subiu para o GitHub. */
-            /* Se sua imagem estiver na pasta raiz, use: url('casal.jpg'); */
             background-image: url('img/casal.JPG'); 
-            
             background-size: cover;
             background-position: center;
             border-radius: 20px;
@@ -215,7 +210,7 @@
         }
 
         .numero.active {
-            background: #b07b28; /* Cor dourada para indicar etapa concluída */
+            background: #b07b28;
         }
 
         .titulo-etapa {
@@ -327,7 +322,43 @@
             color: white;
         }
 
-        /* BOTÃO PRINCIPAL DE ACIONAMENTO */
+        /* CONTADOR DINÂMICO PARA COMBOS PERSONALIZADOS */
+        .stepper-container {
+            display: flex;
+            align-items: center;
+            background: #fafafa;
+            border: 1px solid #ead9bc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stepper-btn {
+            background: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #8d111d;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stepper-btn:active {
+            background: #f1e2cb;
+        }
+
+        .stepper-val {
+            font-size: 14px;
+            font-weight: 700;
+            min-width: 24px;
+            text-align: center;
+            color: #2b1b17;
+        }
+
+        /* BOTÃO PRINCIPAL */
         .botao {
             padding: 10px 20px 32px;
         }
@@ -348,14 +379,9 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: transform 0.1s, opacity 0.2s;
         }
 
-        .botao button:active {
-            transform: scale(0.99);
-        }
-
-        /* FOOTER REFINADO */
+        /* FOOTER */
         .footer {
             text-align: center;
             color: #9f8f83;
@@ -442,7 +468,7 @@
                             <p>1 foto impressa de presente</p>
                         </div>
                     </div>
-                    <div class="preco">Grátis</div>
+                    <div class="preco" id="price-0">Grátis</div>
                 </div>
 
                 <div onclick="selectPackage(1)" id="pkg-1" class="opcao">
@@ -477,6 +503,22 @@
                     </div>
                     <div class="preco">+ R$ 30</div>
                 </div>
+
+                <div onclick="selectPackage(4)" id="pkg-4" class="opcao">
+                    <div class="left">
+                        <div class="radio"></div>
+                        <div>
+                            <h4>Combo Personalizado</h4>
+                            <p id="text-custom">Escolha mais de 3 fotos extras</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stepper-container" onclick="event.stopPropagation()">
+                        <button class="stepper-btn" onclick="adjustCustomQty(-1)">-</button>
+                        <span class="stepper-val" id="custom-qty-display">4</span>
+                        <button class="stepper-btn" onclick="adjustCustomQty(1)">+</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -498,21 +540,19 @@
 
 <script>
     const seuWhatsApp = "5519993405480";
-    let pacoteSelecionado = 0; // Padrão inicial: Grátis
+    let pacoteSelecionado = 0; 
+    let qtdPersonalizada = 4; // Começa em 4 fotos extras caso selecione o dinâmico
     
-    const textosPacotes = [
-        "Apenas a Foto Cortesia (Gratuita)",
-        "Foto Cortesia + 1 Foto Extra (Total R$ 10,00)",
-        "Foto Cortesia + 2 Fotos Extras (Total R$ 20,00)",
-        "Foto Cortesia + 3 Fotos Extras (Total R$ 30,00)"
-    ];
+    // ESCAPES UNICODE NATIVOS EM JAVASCRIPT (Acaba 100% com o diamantezinho preto na tela)
+    const iconCamera = "\u{1F4F8}"; 
+    const iconPin    = "\u{1F4CD}"; 
+    const iconGift   = "\u{1F381}";
 
-    // Validação visual da mesa
     function validateMesa() {
         const mesa = document.getElementById('input-mesa').value;
         const numCirculo = document.getElementById('num-mesa');
         if (mesa && mesa > 0 && mesa <= 99) {
-            numCirculo.classList.add('active'); // Fica dourado se preenchido
+            numCirculo.classList.add('active');
         } else {
             numCirculo.classList.remove('active');
         }
@@ -521,30 +561,52 @@
     function selectPackage(id) {
         pacoteSelecionado = id;
         
-        // Limpa a marcação ativa de todas as caixas
-        for (let i = 0; i <= 3; i++) {
+        for (let i = 0; i <= 4; i++) {
             document.getElementById(`pkg-${i}`).classList.remove('active');
         }
-
-        // Adiciona o estado ativo apenas no que foi clicado
         document.getElementById(`pkg-${id}`).classList.add('active');
+    }
+
+    // Gerencia o seletor de fotos + e - dinamicamente
+    function adjustCustomQty(change) {
+        qtdPersonalizada = Math.max(4, qtdPersonalizada + change); // Bloqueia para não descer menos que 4 extras
+        document.getElementById('custom-qty-display').innerText = qtdPersonalizada;
+        document.getElementById('text-custom').innerText = `Total de ${qtdPersonalizada + 1} fotos (1 grátis + ${qtdPersonalizada} extras)`;
+        
+        // Se clicar no botão de ajustar quantidade, o sistema já marca o card dinâmico automaticamente
+        selectPackage(4);
     }
 
     function enviarChamado() {
         const mesa = document.getElementById('input-mesa').value;
 
-        // Validação de segurança básica da mesa
         if (!mesa || mesa <= 0 || mesa > 99) {
             alert("Por favor, informe o número correto da sua mesa (1 a 99) antes de solicitar o fotógrafo!");
             return;
         }
 
-        const pacoteTexto = textosPacotes[pacoteSelecionado];
+        let pacoteTexto = "";
+        if (pacoteSelecionado === 4) {
+            const totalPreco = qtdPersonalizada * 10;
+            pacoteTexto = `Foto Cortesia + ${qtdPersonalizada} Extras (Total de ${qtdPersonalizada + 1} fotos - Valor Extra: R$ ${totalPreco},00)`;
+        } else {
+            const textosPacotes = [
+                "Apenas a Foto Cortesia (Gratuita)",
+                "Foto Cortesia + 1 Foto Extra (Total R$ 10,00)",
+                "Foto Cortesia + 2 Fotos Extras (Total R$ 20,00)",
+                "Foto Cortesia + 3 Fotos Extras (Total R$ 30,00)"
+            ];
+            pacoteTexto = textosPacotes[pacoteSelecionado];
+        }
 
-        // Formatação perfeita do pedido para cair limpo no seu WhatsApp
-        const mensagemFinal = encodeURIComponent(`📸 *NOVO CHAMADO DE FOTO - DECK*\n\n📍 *Mesa:* ${mesa.padStart(2, '0')}\n🎁 *Pacote Selecionado:* ${pacoteTexto}\n\n_Aguardamos você para fazer os registros!_`);
+        // CONSTRUÇÃO REFORÇADA DA MENSAGEM COM UNICODE ESCAPES NATIVOS
+        const mensagemFinal = encodeURIComponent(
+            iconCamera + " *NOVO CHAMADO DE FOTO - DECK*\n\n" +
+            iconPin + " *Mesa:* " + mesa.padStart(2, '0') + "\n" +
+            iconGift + " *Pacote Selecionado:* " + pacoteTexto + "\n\n" +
+            "_Aguardamos você para fazer os registros!_"
+        );
 
-        // Dispara o aplicativo do WhatsApp na hora
         window.open(`https://wa.me/${seuWhatsApp}?text=${mensagemFinal}`, '_blank');
     }
 </script>
